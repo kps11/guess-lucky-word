@@ -1,23 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
+import Congrats from './Congrats';
+import Guessword from './Guessword';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>Guess lucky word</h1>
+     <Congrats sucess= {true}/>
+     <Guessword guesswords ={[
+        {
+            guessedword:"train", letterMatchCount :3
+        },
+        {
+            guessedword:"agile", letterMatchCount :1
+        },
+        {
+            guessedword:"party", letterMatchCount :5
+        }
+    ]}/>
     </div>
   );
 }
