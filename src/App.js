@@ -6,22 +6,16 @@ import Input from './input';
 
 
 function App() {
+  //props
+  const sucess = false;
+  const secretWord ='party'
+  const guesswords= []
   return (
     <div className="container" data-test = "component-app">
       <h1>Guess lucky word</h1>
-      <Input secretWord='lucky'/>
-     <Congrats sucess= {true}/>
-     <Guessword guesswords ={[
-        {
-            guessedword:"train", letterMatchCount :3
-        },
-        {
-            guessedword:"agile", letterMatchCount :1
-        },
-        {
-            guessedword:"party", letterMatchCount :5
-        }
-    ]}/>
+      <Input sucess= {sucess} secretWord= {secretWord}/>
+     <Congrats sucess= {sucess}/>
+     <Guessword guesswords ={guesswords}/>
     </div>
   );
 }
