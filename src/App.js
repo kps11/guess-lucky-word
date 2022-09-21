@@ -7,7 +7,7 @@ import Input from './input';
 
 function App() {
   return (
-    <div className="container">
+    <div className="container" data-test = "component-app">
       <h1>Guess lucky word</h1>
       <Input secretWord='lucky'/>
      <Congrats sucess= {true}/>
