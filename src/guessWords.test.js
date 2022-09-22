@@ -1,13 +1,18 @@
 import React from "react";
 import { mount } from "enzyme";
+import { Provider } from "react-redux";
 
 import App from "./App";
-import { findByTestAttr } from "../test/testUtils";
+import { findByTestAttr, storeFactory } from "../test/testUtils";
 
+//active global mock to make sure getSecretWord doesn't make network call
 
-const setUp = (state = {}) =>{
+jest.mock('./actions')
+
+const setUp = (initialState = {}) =>{
     //Apply state 
-    const wrapper = mount (<App {...state}/>)
+    const store = storeFactory (initialState)
+    const wrapper = mount ( <Provider store={store}><App {...initialState}/></Provider>)
 
     //add value to input box
     const inputBox = findByTestAttr(wrapper, 'input-box');
@@ -20,7 +25,7 @@ const setUp = (state = {}) =>{
 }
 
 
-describe.skip("no words been guessed" , () =>{
+describe("no words been guessed" , () =>{
     let wrapper;
     beforeEach(() => {
         wrapper = setUp(
@@ -38,7 +43,7 @@ describe.skip("no words been guessed" , () =>{
     })
 })
 
-describe.skip("some words been gueesed", () =>{
+describe("some words been gueesed", () =>{
     let wrapper;
     beforeEach(() => {
         wrapper = setUp(
@@ -56,14 +61,14 @@ describe.skip("some words been gueesed", () =>{
     })
 })
 
-describe.skip("guess secret word", () =>{
+describe("guess secret word", () =>{
     let wrapper;
     beforeEach(() => {
         wrapper = setUp(
             {
                 secretWord:'party',
                 sucess:false,
-                guesswords:[{ guessedword : "agaile" , letterMatchCount : 1}]
+                guesswords:[{ guessedword : "agile" , letterMatchCount : 1}]
             }
         );
 
@@ -86,9 +91,8 @@ describe.skip("guess secret word", () =>{
     test("does not display input components contents ", () =>{
         const inputBox = findByTestAttr(wrapper, 'input-box');
         expect(inputBox.exists()).toBe(false)
-
         const submitButton = findByTestAttr (wrapper ,"submit-button");
-        submitButton.simulate("click", { preventDefault(){}})
+        // submitButton.simulate("click", { preventDefault(){}})
     })
    
 })

@@ -41,7 +41,6 @@ describe(" guessWord action dispatcher ", () =>{
                 ] 
 
             }
-            console.log("store", newState)
             expect ( newState ).toEqual(expectedState)
         })
     });
