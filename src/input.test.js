@@ -1,8 +1,9 @@
 import React from "react";
-import { shallow  } from "enzyme";
+import { mount } from "enzyme";
 
-import {checkProps, findByTestAttr} from "../test/testUtils";
+import {checkProps, findByTestAttr ,storeFactory} from "../test/testUtils";
 import Input from "./input";
+import { Provider } from "react-redux";
 
 const mockSetCurrentGuess  = jest.fn();
 jest.mock('react', () =>({
@@ -11,18 +12,19 @@ jest.mock('react', () =>({
 }))
 
 const defaultProps = {
-    secretWord : "lucky"
+    secretWord : "lucky" 
 }
-
-const setUp = (sucess= false,secretWord ="party") =>{
-    return shallow(<Input sucess ={sucess} secretWord={secretWord}/>);
+ 
+const setUp = (initalState={}, secretWord ="party") =>{
+    const store = storeFactory(initalState);
+    return mount(<Provider store ={store}><Input secretWord={secretWord}/></Provider>);
 }
 
 describe("render" ,() =>{
-    describe("sucess id true",() => {
+    describe("sucess is false",() => {
         let wrapper ;
         beforeEach(() =>{
-            wrapper = setUp(true);
+            wrapper = setUp({sucess: false});
         })
         test("Input render without Error", () =>{
             const wrapper = setUp();
@@ -31,18 +33,18 @@ describe("render" ,() =>{
         })
         test("Input box does not show ",()=>{
             const inputBox = findByTestAttr(wrapper , "input-box")
-            expect(inputBox.exists()).toBe(false)
+            expect(inputBox.exists()).toBe(true);
         })
 
         test("submit button does not show ",()=>{
             const submitButton = findByTestAttr(wrapper , "submit-button")
-            expect(submitButton.exists()).toBe(false)
+            expect(submitButton.exists()).toBe(true);
         })
     });
-    describe("sucess is false", ()=>{
+    describe("sucess is true", ()=>{
         let wrapper ;
         beforeEach(() =>{
-            wrapper = setUp(false);
+            wrapper = setUp({sucess: true});
         })
         test("Input render without Error", () =>{
             const wrapper = setUp();
@@ -51,12 +53,12 @@ describe("render" ,() =>{
         })
         test("Input box show ",()=>{
             const inputBox = findByTestAttr(wrapper , "input-box")
-            expect(inputBox.exists()).toBe(true)
+            expect(inputBox.exists()).toBe(false)
         })
 
         test("submit button show ",()=>{
             const submitButton = findByTestAttr(wrapper , "submit-button")
-            expect(submitButton.exists()).toBe(true)
+            expect(submitButton.exists()).toBe(false)
         })
     })
 
@@ -74,7 +76,7 @@ describe(" testing input component", () =>{
 describe("state controlled input field", () => {
     let wrapper;
     beforeEach(() =>{
-        wrapper = setUp();
+        wrapper = setUp({sucess: false});
         mockSetCurrentGuess.mockClear();
      
     })

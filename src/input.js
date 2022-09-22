@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from "prop-types";
+import { useSelector } from 'react-redux';
 
 function Input(props) {
-    const { secretWord , sucess} = props
+    const { secretWord } = props
     const [ currentGuess , setCurrentGuess] = useState("")
+    const sucess = useSelector ( state => state.sucess)
 
-    // console.log("current Guess",currentGuess)
 
     if(sucess){
        return  <div data-test = "component-input"/>
-    }
+    }else{
     return (
         <div data-test = "component-input">
             < form className='form-inline'>
@@ -19,7 +20,8 @@ function Input(props) {
                     type="text" 
                     placeholder='Enter guess' 
                     value={currentGuess} 
-                    onChange ={(event) => setCurrentGuess(event.target.value)} />
+                    onChange ={(event) => setCurrentGuess(event.target.value)} 
+                    />
                 <button data-test ="submit-button"
                     className='btn btn-primary mb-2'
                     onClick={(event) =>{
@@ -30,7 +32,7 @@ function Input(props) {
                     </button>
             </form>
         </div>
-    );
+    )};
 }
 
 Input.propTypes = {
